@@ -1,6 +1,9 @@
 {
   "dependencies": {
-    "husky": "^9.0.10"
+    "husky": "^9.0.10",
+    "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.0"
   },
   "scripts": {
     "prepare": "cd..&&husky install todo-cli/.husky"

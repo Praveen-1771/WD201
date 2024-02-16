@@ -1,72 +1,69 @@
-const todolist = require("../todo");
-const {
-    all,
-    add,
-    markAsComplete,
-    overdue,
-    dueToday,
-    dueLater
-} = todolist();
-const formattedDate = (d) =>
-{
-    return d.toISOString().split("Time")[0];
-};
-const todaydate = new Date();
-const today = formattedDate(todaydate);
-const Yday = formattedDate (new Date(new Date().setDate(todaydate.getDate() - 1)),);
-const tomorrow = formattedDate (new Date(new Date().setDate(todaydate.getDate() + 1)),);
-describe("Todolist Test_Suite", () =>
-{
-    beforeAll(() =>
-    {
-        [
-            {
-                title:"Breakfast",
-                completed: false,
-                DueDate:Yday,
-            },
-            {
-                title:"lunch",
-                completed: false,
-                DueDate:today,
-            },
-            {
-                title:"dinner",
-                completed: false,
-                DueDate:tomorrow,
-            },
-        ].forEach(add);
-    });
-test("Add new todo", () =>
-{
-const C1 = all.length;
-expect(all.length).toBe(C1);
-add(
-    {
-        title: "Test todo",
-        completed: false,
-        DueDate: today,
+const todoList = require("../todo");
 
-    }
+const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
+
+const formattedDate = (d) => {
+  return d.toISOString().split("T")[0];
+};
+
+var dateToday = new Date();
+
+const today = formattedDate(dateToday);
+
+const yesterday = formattedDate(
+  new Date(new Date().setDate(dateToday.getDate() - 1)),
 );
-expect(all.length).toBe(C1 + 1);
-});
-test("todo as complete", () =>
-{
+
+const tomorrow = formattedDate(
+  new Date(new Date().setDate(dateToday.getDate() + 1)),
+);
+
+describe("Todolist Test Suite", () => {
+  beforeAll(() => {
+    [
+      {
+        title: "Breakfast",
+        completed: false,
+        dueDate: yesterday,
+      },
+      {
+        title: "Lunch",
+        completed: false,
+        dueDate: today,
+      },
+      {
+        title: "Dinner",
+        completed: false,
+        dueDate: tomorrow,
+      },
+    ].forEach(add);
+  });
+  test("Should add new todo", () => {
+    const cnt = all.length;
+    expect(all.length).toBe(cnt);
+    add({
+      title: "Test todo",
+      completed: false,
+      dueDate: today,
+    });
+    expect(all.length).toBe(cnt + 1);
+  });
+
+  test("Should mark a todo as complete", () => {
     expect(all[1].completed).toBe(false);
-markAsComplete(1);
+    markAsComplete(1);
     expect(all[1].completed).toBe(true);
-});
-test("overDue test",()=>
-{
+  });
+
+  test("overdue test", () => {
     expect(overdue().length).toBe(1);
-});
-test ("Duetoday test", ()=>
-{
+  });
+
+  test("dueToday test", () => {
     expect(dueToday().length).toBe(2);
-});
-test("Duelater test",()=>
-{
+  });
+
+  test("duelater test", () => {
     expect(dueLater().length).toBe(1);
-});
+  });
 });
