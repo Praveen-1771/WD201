@@ -70,8 +70,7 @@ await Todo.update(
     {
       where: {id: id,},
     },
-  },
-);
+  );
 }
 displayableString() {
       let checkbox = this.completed ? "[x]" : "[ ]";
