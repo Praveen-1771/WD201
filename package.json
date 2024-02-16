@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "husky": "^9.0.10"
+  },
+  "scripts": {
+    "prepare": "cd..&&husky install todo-cli/.husky"
+  }
+}
