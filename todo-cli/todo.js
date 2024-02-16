@@ -11,7 +11,7 @@ const todoList = () => {
 
   const overdue = () => {
     const today = new Date().toISOString().split("T")[0];
-    return all.filter((item) => !item.completed && item.dueDate < today);
+    return all.filter((item) => item.dueDate < today);
   };
 
   const dueToday = () => {
@@ -21,7 +21,7 @@ const todoList = () => {
 
   const dueLater = () => {
     const today = new Date().toISOString().split("T")[0];
-    return all.filter((item) => !item.completed && item.dueDate > today);
+    return all.filter((item) => item.dueDate > today);
   };
 
   const toDisplayableList = (list) => {

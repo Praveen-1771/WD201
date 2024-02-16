@@ -73,7 +73,7 @@ await Todo.update(
   );
 }
 displayableString() {
-      let checkbox = this.completed ? "[x]" : "[ ]";
+      let checkbox = this.completed ? "[x]" : "[]";
       let today = new Date().toLocaleDateString("en-CA");
       if (this.dueDate === today)
       {
@@ -88,7 +88,7 @@ displayableString() {
   Todo.init({
     title: DataTypes.STRING,
     dueDate: DataTypes.DATEONLY,
-    completed: DataTypes.BOOLEAN
+    completed: DataTypes.BOOLEAN,
   },
    {
     sequelize,
