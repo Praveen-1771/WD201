@@ -74,14 +74,23 @@ await Todo.update(
 }
 displayableString() {
       let checkbox = this.completed ? "[x]" : "[ ]";
-      return `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`;
-    }
+      let today = new Date().toLocaleDateString("en-CA");
+      if (this.dueDate === today)
+      {
+        return `${this.id}. ${checkbox} ${this.title}`;
+      }
+      else
+      {
+        return `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`;
+      }
+     }
   }
   Todo.init({
     title: DataTypes.STRING,
     dueDate: DataTypes.DATEONLY,
     completed: DataTypes.BOOLEAN
-  }, {
+  },
+   {
     sequelize,
     modelName: 'Todo',
   });
