@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:prod":"node index.js"
   },
   "author": "praveen <praveenkumar.it@hicet.ac.in>",
   "license": "ISC",
@@ -13,8 +14,8 @@
     "nodemon": "^3.1.0"
   },
 "dependencies": {
-"ejs": "^3.1.9",
-"start:prod":"node index.js"
+"ejs": "^3.1.9"
+
  
 
     
