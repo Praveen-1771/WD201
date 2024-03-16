@@ -1,0 +1,18 @@
+<table border="1">
+    <tr>
+        <th>id</th>
+        <th>title</th>
+        <th>Due Date</th>
+        <th>Completed</th>
+    </tr>
+    <% todos.forEach(todo =>
+    {
+        %>
+        <td><%= todo.id %></td>
+        <td><%= todo.title %></td>
+        <td><%= todo.dueDate %></td>
+        <td><%= todo.completed %></td>
+
+    })
+</table>
+table
