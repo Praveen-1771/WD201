@@ -13,7 +13,7 @@ app.get("/", async (request, response) => {
    });
 }
     else{
-    responsse.json({
+    response..json({
       allTodos 
     })
    }
