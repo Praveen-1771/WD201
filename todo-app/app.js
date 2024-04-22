@@ -10,19 +10,19 @@ app.set('view engine','ejs');
 
 
 app.get("/", async (request, response) => {
-    try {
-        const allTodos = await Todo.getTodos(); 
-        response.render('index', { allTodos });
-    } catch (error) {
-        console.error('Error fetching todos:', error);
-        response.status(500).send('Internal Server Error');
-    }
-      else {
+  const allTodos = await Todo.getTodos();
+  if(request.accepts('html')) {
+    response.render('index',{
+    allTodos
+   });
+}
+    else{
     responsse.json({
       allTodos 
     })
    }
-});
+  
+  });
   app.use(express.static(path.join(__dirname,'public')));
 
 app.get("/todos", async function (_request, response) {
