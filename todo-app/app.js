@@ -17,6 +17,13 @@ app.get("/", async (request, response) => {
         console.error('Error fetching todos:', error);
         response.status(500).send('Internal Server Error');
     }
+      else {
+    responsse.json({
+      allTodos 
+    })
+   }
+  
+  });
 });
   app.use(express.static(path.join(__dirname,'public')));
 
