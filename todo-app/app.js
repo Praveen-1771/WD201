@@ -18,11 +18,10 @@ app.get("/", async (request, response) => {
         response.status(500).send('Internal Server Error');
     }
 });
-    else 
-{
+    else {
     response.json({
       allTodos 
-    })
+    });
    }
   
   });
