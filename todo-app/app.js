@@ -20,7 +20,7 @@ app.get("/", async (request, response) => {
       else {
     responsse.json({
       allTodos 
-    });
+    })
    }
 });
   app.use(express.static(path.join(__dirname,'public')));
