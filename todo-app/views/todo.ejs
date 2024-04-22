@@ -6,13 +6,13 @@
         <th>Completed</th>
     </tr>
     <% todos.forEach(todo =>
-    {
-        %>
+    { %>
+        <tr>
         <td><%= todo.id %></td>
         <td><%= todo.title %></td>
         <td><%= todo.dueDate %></td>
         <td><%= todo.completed %></td>
-
-    })
+        </tr>
+   <% }); %>
 </table>
 table
