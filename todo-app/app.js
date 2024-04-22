@@ -18,15 +18,7 @@ app.get("/", async (request, response) => {
         response.status(500).send('Internal Server Error');
     }
 });
-    else {
-    response.json({
-      allTodos 
-    });
-   }
-  
-  });
-
-app.use(express.static(path.join(__dirname,'public')));
+  app.use(express.static(path.join(__dirname,'public')));
 
 app.get("/todos", async function (_request, response) {
   console.log("Processing list of all Todos ...");
