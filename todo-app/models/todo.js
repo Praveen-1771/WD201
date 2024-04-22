@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
   class Todo extends Model {
         static associate(models) {
  
-      Todo.belongsTo(models.User, { foreignKey: 'userId' }); // Assuming a User model with a primary key 'id'
+      Todo.belongsTo(models.User, { }); // Assuming a User model with a primary key 'id'
     
     }
 
