@@ -1,7 +1,6 @@
 const express = require("express");
-const path = require('path'); 
 const app = express();
-const Todo = require('./models/');
+const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 // set an ejs file as view engine
@@ -10,26 +9,21 @@ app.set('view engine','ejs');
 
 
 app.get("/", async (request, response) => {
-try 
-{
-     const allTodos = await Todo.getTodos(); 
-       if (request.accepts("html")) {
-          response.render('index', 
-     { allTodos });
-        }
-      else {
-          responsse.json({
-            allTodos 
-          })
-         }
+  const allTodos=await Todo.getTodos();
+  if(request.accepts('html')) {
+    response.render('index',{
+    allTodos
+   });
 }
-catch (error) {
-        console.error('Error fetching todos:', error);
-        response.status(500).send('Internal Server     Error');
-    }
+    else{
+    responsse.json({
+      allTodos 
+    })
+   }
   
   });
-  app.use(express.static(path.join(__dirname,'public')));
+
+app.use(express.static(path.join(__dirname,'public')));
 
 app.get("/todos", async function (_request, response) {
   console.log("Processing list of all Todos ...");
