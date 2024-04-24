@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require('path'); 
 const app = express();
-const Todo = require('./models/todo');
+const Todo = require('./models/');
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 // set an ejs file as view engine
