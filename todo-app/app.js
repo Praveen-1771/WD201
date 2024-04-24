@@ -1,102 +1,85 @@
 const express = require("express");
+const path = require("path");
 const app = express();
-const { Todo } = require("./models");
+const Todo = require("./models/todo"); // Import the Todo model
 const bodyParser = require("body-parser");
+
 app.use(bodyParser.json());
-// set an ejs file as view engine
-app.set('view engine','ejs');
+app.set("view engine", "ejs");
 
-
-
-app.get("/", async (request, response) => {
-  const allTodos=await Todo.getTodos();
-  if(request.accepts('html')) {
-    response.render('index',{
-    allTodos
-   });
-}
-    else{
-    responsse.json({
-      allTodos 
-    })
-   }
-  
-  });
-
-app.use(express.static(path.join(__dirname,'public')));
-
-app.get("/todos", async function (_request, response) {
-  console.log("Processing list of all Todos ...");
-  // FILL IN YOUR CODE HERE
-
-  // First, we have to query our PostgerSQL database using Sequelize to get list of all Todos.
-  // Then, we have to respond with all Todos, like:
-  // response.send(todos)
+app.get("/", async (req, res) => {
   try {
-    const todos = await Todo.findAll(); // Use Sequelize's findAll method to get all To-Dos
-    return response.json(todos);
-  } catch (error) {
-    console.log(error);
-    return response.status(500).json({ error: "Internal Server Error" });
-  }
-
-});
-
-app.get("/todos/:id", async function (request, response) {
-  try {
-    const todo = await Todo.findByPk(request.params.id);
-    return response.json(todo);
-  } catch (error) {
-    console.log(error);
-    return response.status(422).json(error);
-  }
-});
-
-app.post("/todos", async function (request, response) {
-  try {
-    const todo = await Todo.addTodo(request.body);
-    return response.json(todo);
-  } catch (error) {
-    console.log(error);
-    return response.status(422).json(error);
-  }
-});
-
-app.put("/todos/:id/markAsCompleted", async function (request, response) {
-  const todo = await Todo.findByPk(request.params.id);
-  try {
-    const updatedTodo = await todo.markAsCompleted();
-    return response.json(updatedTodo);
-  } catch (error) {
-    console.log(error);
-    return response.status(422).json(error);
-  }
-});
-
-app.delete("/todos/:id", async function (request, response) {
-  console.log("We have to delete a Todo with ID: ", request.params.id);
-  // FILL IN YOUR CODE HERE
-
-  // First, we have to query our database to delete a Todo by ID.
-  // Then, we have to respond back with true/false based on whether the Todo was deleted or not.
-  // response.send(true)
-
-  try {
-    const todoId = request.params.id;
-    const todo = await Todo.findByPk(todoId);
-
-    if (!todo) {
-      return response.status(404).json({ error: "Todo not found" });
+    const allTodos = await Todo.getTodos(); // Get all To-Dos
+    if (req.accepts("html")) {
+      res.render("index", { allTodos }); // Render the EJS view
+    } else {
+      res.json({ allTodos }); // Return JSON response
     }
-
-    await todo.destroy(); // Use Sequelize's destroy method to delete the To-Do
-
-    return response.json({ success: true });
   } catch (error) {
-    console.log(error);
-    return response.status(500).json({ error: "Internal Server Error" });
+    console.error("Error fetching todos:", error);
+    res.status(500).send("Internal Server Error");
   }
+});
 
+app.use(express.static(path.join(__dirname, "public"))); // Serve static files
+
+app.get("/todos", async function (req, res) {
+  try {
+    const todos = await Todo.findAll(); // Get all To-Dos
+    return res.json(todos);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.get("/todos/:id", async function (req, res) {
+  try {
+    const todo = await Todo.findByPk(req.params.id);
+    return res.json(todo);
+  } catch (error) {
+    console.error(error);
+    return res.status(422).json(error);
+  }
+});
+
+app.post("/todos", async function (req, res) {
+  try {
+    const todo = await Todo.create(req.body); // Create a new To-Do
+    return res.json(todo);
+  } catch (error) {
+    console.error(error);
+    return res.status(422).json(error);
+  }
+});
+
+app.put("/todos/:id/markAsCompleted", async function (req, res) {
+  try {
+    const todo = await Todo.findByPk(req.params.id);
+    if (!todo) {
+      return res.status(404).json({ error: "To-Do not found" });
+    }
+    todo.completed = true;
+    await todo.save(); // Mark the To-Do as completed
+    return res.json(todo);
+  } catch (error) {
+    console.error(error);
+    return res.status(422).json(error);
+  }
+});
+
+app.delete("/todos/:id", async function (req, res) {
+  try {
+    const todo = await Todo.findByPk(req.params.id);
+    if (!todo) {
+      return res.status(404).json({ error: "To-Do not found" });
+    }
+    await todo.destroy(); // Delete the To-Do
+    return res.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 module.exports = app;
